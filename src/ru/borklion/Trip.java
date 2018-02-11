@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Trip {
-	Date dateTrip;
-	String idRequest;
-	String address;
-	List<Ticket> tickets;
-	boolean flagReturnBase;
+	private Date dateTrip;
+	private String idRequest;
+	private String address;
+	private List<Ticket> tickets;
+	private boolean flagReturnBase;
 }

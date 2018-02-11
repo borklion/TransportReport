@@ -2,10 +2,10 @@ package ru.borklion;
 
 public class Ticket {
 	private String serial;
-	private Integer number;
-	private Integer price;
+	private int number;
+	private int price;
 	
-	public Ticket(String serial, Integer number, Integer price) {
+	public Ticket(String serial, int number, int price) {
 		super();
 		this.serial = serial;
 		this.number = number;
@@ -16,11 +16,11 @@ public class Ticket {
 		return serial;
 	}
 
-	public Integer getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
-	public Integer getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
@@ -28,11 +28,11 @@ public class Ticket {
 		this.serial = serial;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 }

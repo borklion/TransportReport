@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class TransportReport {
-	Date dateReport;
-	Employee employee;
-	Integer reportingPeriod;
-	List<Trip> trips;
-	Integer total;
+	private Date dateReport;
+	private Employee employee;
+	private int reportingPeriod;
+	private List<Trip> trips;
+	private int total;
 }

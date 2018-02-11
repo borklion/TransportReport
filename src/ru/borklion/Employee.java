@@ -1,8 +1,8 @@
 package ru.borklion;
 
 public class Employee {
-	String fio;
-	String department;
-	String boss;
-	String accountant;
+	private String fio;
+	private String department;
+	private String boss;
+	private String accountant;
 }
