@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,13 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+
+import ru.borklion.gui.MainWindow;
+
 public class TransportReportUtil {
     static int stringToInt(String val, int defaultValue) {
         try {
@@ -25,16 +34,34 @@ public class TransportReportUtil {
             return defaultValue;
         }
     }
-    static File SelectFile() {
-        JFileChooser fileOpen = new JFileChooser();
-        int res = fileOpen.showDialog(null, "Выбрать");
-        if (res == JFileChooser.APPROVE_OPTION) {
-            File fileImportReport = fileOpen.getSelectedFile();
-            return fileImportReport;
-        } else return null;
+    static public String SelectFile(Shell shell) {
+    		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+    		String[] filterNames = new String[] {"XML files", "All Files (*)"};
+    		String[] filterExtensions = new String[] {"*.xml", "*"};
+    		dialog.setFilterNames(filterNames);
+    		dialog.setFilterExtensions(filterExtensions);
+    		String path = dialog.open();
+    		return path;
     }
 
-    static List<String[]> XMLParse(File file) throws FileNotFoundException, IOException {
+    static public void ImportXMLFile(Composite parent) {
+		String pathFileXML = TransportReportUtil.SelectFile(parent.getShell());
+		if(pathFileXML != null) {
+			try {
+				File fileIn = new File(pathFileXML);
+				List<String[]> listTrip = TransportReportUtil.XMLParse(fileIn);
+				for(String[] el:listTrip) {
+//					Date dateTrip = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(el[3]);
+					TransportReportController.addTrip(el);
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+    }
+    
+    static public List<String[]> XMLParse(File file) throws FileNotFoundException, IOException {
         List<String[]> calls = new ArrayList<>();
         FileInputStream stream = new FileInputStream(file);
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
@@ -60,7 +87,7 @@ public class TransportReportUtil {
             }
         }
         catch(XMLStreamException ex) {
-            Logger.getLogger(TransportReportUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         
         }
         stream.close();

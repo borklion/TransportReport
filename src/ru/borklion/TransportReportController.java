@@ -1,5 +1,9 @@
 package ru.borklion;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -8,7 +12,9 @@ import ru.borklion.gui.RegistrationComposite;
 import ru.borklion.gui.SelectEmployeeComposite;
 
 public class TransportReportController {
-	static Employee employee = new Employee();
+	private static Employee employee = new Employee();
+	private TransportReport transportReport;
+	
 	public static void Logon(Composite composite) {
 		if(true) {
 		//выбор сотрудника
@@ -38,6 +44,15 @@ public class TransportReportController {
 		employee.setAccountant(strAccountant);
 	}
 	public static void CreateReport(int mounth, int year) {
-		TransportReport transportReport = new TransportReport(employee,mounth,year);
+		this.transportReport = new TransportReport(employee,mounth,year);
+	}
+	public static void addTrip(String[] arg) {
+		Date dateTrip;
+		try {
+			dateTrip = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(arg[3]);
+		} catch (ParseException e) {
+			dateTrip = null;
+		}
+		this.transportReport.addTrip(arg[0],arg[2],dateTrip);
 	}
 }

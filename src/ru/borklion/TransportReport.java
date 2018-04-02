@@ -16,8 +16,13 @@ public class TransportReport {
 		this.employee = employee;
 		this.reportingPeriod = year*100 + mounth;
 		this.dateReport = new Date();
-		this.trips = new ArrayList<>();
+		this.trips = new ArrayList<Trip>();
 		this.total = 0;
+	}
+	
+	public void addTrip(String idRequest, String address, Date dateTrip) {
+		Trip trip = new Trip(idRequest, address, dateTrip);
+		this.trips.add(trip);
 	}
 	
 	
