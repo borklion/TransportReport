@@ -31,7 +31,8 @@ public class SelectEmployeeComposite extends Composite {
 		buttonRegistration.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				TransportReportController.ViewRegistrationForm(parent);
+				RegistrationComposite registrationComposite = new RegistrationComposite(parent, SWT.NONE);
+				TransportReportController.ViewCompositeStackLayout(parent, registrationComposite);
 			}
 		});
 		buttonRegistration.setBounds(178, 72, 94, 28);

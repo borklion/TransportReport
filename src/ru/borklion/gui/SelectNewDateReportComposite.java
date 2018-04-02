@@ -28,6 +28,8 @@ public class SelectNewDateReportComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TransportReportController.CreateReport(dateTime.getMonth(),dateTime.getYear());
+				TripsAndTicketsComposite tripsAndTicketsComposite = new TripsAndTicketsComposite(parent, SWT.NONE);
+				TransportReportController.ViewCompositeStackLayout(parent, tripsAndTicketsComposite);
 			}
 		});
 		button.setBounds(105, 10, 150, 28);

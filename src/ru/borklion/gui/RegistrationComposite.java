@@ -58,6 +58,8 @@ public class RegistrationComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TransportReportController.SaveEmployee(textFIO.getText(),textDepartment.getText(),textBoss.getText(),textAccountant.getText());
+				SelectNewDateReportComposite selectNewDateReportComposite = new SelectNewDateReportComposite(parent, SWT.NONE);
+				TransportReportController.ViewCompositeStackLayout(parent, selectNewDateReportComposite);
 			}
 		});
 		buttonSave.setBounds(116, 90, 94, 28);

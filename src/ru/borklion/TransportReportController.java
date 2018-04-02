@@ -15,19 +15,19 @@ public class TransportReportController {
 			//select из базы с выводом в список для выбора
 			//если пусто или нажата кнопка регистрации -- форма регистрации
 			SelectEmployeeComposite selectEmployeeComposite = new SelectEmployeeComposite(composite, SWT.None);
-			StackLayout layout = (StackLayout) composite.getLayout();
-			layout.topControl = selectEmployeeComposite;
-			composite.layout();
-		} else ViewRegistrationForm(composite);
+			ViewCompositeStackLayout(composite, selectEmployeeComposite);
+		} else {
+			RegistrationComposite registrationComposite = new RegistrationComposite(composite, SWT.NONE);
+			ViewCompositeStackLayout(composite, registrationComposite);
+		}
 		//создание объекта employee
 		//замена кнопки Вход на Выход
 		//выбор даты отчета
 		//создание объекта TransportReport
 	}
-	public static void ViewRegistrationForm(Composite composite) {
-		RegistrationComposite registrationComposite = new RegistrationComposite(composite, SWT.NONE);
+	public static <T extends Composite> void ViewCompositeStackLayout(Composite composite, T customComposite) {
 		StackLayout layout = (StackLayout) composite.getLayout();
-		layout.topControl = registrationComposite;
+		layout.topControl = customComposite;
 		composite.layout();
 
 	}
