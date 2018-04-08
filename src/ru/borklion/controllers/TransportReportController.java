@@ -8,8 +8,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.model.EmployeeModel;
@@ -23,7 +23,7 @@ import ru.borklion.view.TripsAndTicketsComposite;
 import ru.borklion.view.dialogs.Dialogs;
 
 public class TransportReportController {
-	private EmployeeModel employee;
+	private EmployeeModel employees;
 	private TransportReportModel transportReport;
 	private Shell shell;
 	
@@ -53,40 +53,59 @@ public class TransportReportController {
     }
 	
 	public void Logon(Composite composite) {
-		if(false) {
-		//выбор сотрудника
-			//select из базы с выводом в список для выбора
-			//если пусто или нажата кнопка регистрации -- форма регистрации
+		employees = new EmployeeModel();
+		String[] items = employees.getAll();
+		if(items.length > 0) {
 			SelectEmployeeComposite selectEmployeeComposite = new SelectEmployeeComposite(composite, SWT.None);
+			selectEmployeeComposite.getCombo().setItems(items);
 			ViewCompositeStackLayout(composite, selectEmployeeComposite);
-		} else {
-			RegistrationComposite registrationComposite = new RegistrationComposite(composite, SWT.NONE);
-			ViewCompositeStackLayout(composite, registrationComposite);
-			Button buttonSave = registrationComposite.getButtonSave();
-			buttonSave.addSelectionListener(new SelectionAdapter() {
+			selectEmployeeComposite.getButtonLogon().addSelectionListener(new SelectionAdapter() {
+				
+			});
+			selectEmployeeComposite.getButtonRegistration().addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					String[] field = registrationComposite.getTextField();
-					employee = new EmployeeModel(field[0], field[1], field[2], field[3]);
-					SelectNewDateReportComposite selectNewDateReportComposite = new SelectNewDateReportComposite(composite, SWT.NONE);
-					ViewCompositeStackLayout(composite, selectNewDateReportComposite);
-					selectNewDateReportComposite.getButton().addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						CreateReport(selectNewDateReportComposite.getDateReport().getMonth(),selectNewDateReportComposite.getDateReport().getYear());
-						TripsAndTicketsComposite tripsAndTicketsComposite = new TripsAndTicketsComposite(composite, SWT.NONE);
-						ViewCompositeStackLayout(composite, tripsAndTicketsComposite);
-					}
-				});
-
+					Registration(composite);
 				}
 			});
+		} else {
+			Registration(composite);
 		}
 		composite.setVisible(true);
 		//создание объекта employee
 		//замена кнопки Вход на Выход
 		//выбор даты отчета
 		//создание объекта TransportReport
+	}
+	
+	public void Registration(Composite composite) {
+		RegistrationComposite registrationComposite = new RegistrationComposite(composite, SWT.NONE);
+		ViewCompositeStackLayout(composite, registrationComposite);
+		registrationComposite.getButtonSave().addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String[] field = registrationComposite.getTextField();
+				employees.addEmployee(field[0], field[1], field[2], field[3]);
+				SelectNewDateReportComposite selectNewDateReportComposite = new SelectNewDateReportComposite(composite, SWT.NONE);
+				ViewCompositeStackLayout(composite, selectNewDateReportComposite);
+				selectNewDateReportComposite.getButton().addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					CreateReport(selectNewDateReportComposite.getDateReport().getMonth(),selectNewDateReportComposite.getDateReport().getYear());
+					TripsAndTicketsComposite tripsAndTicketsComposite = new TripsAndTicketsComposite(composite, SWT.NONE);
+					ViewCompositeStackLayout(composite, tripsAndTicketsComposite);
+					tripsAndTicketsComposite.getTripsComposite().getNewButton().addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							ImportXMLFile();
+						}
+					});;
+				}
+			});
+
+			}
+		});
+		
 	}
 	public <T extends Composite> void ViewCompositeStackLayout(Composite composite, T customComposite) {
 		StackLayout layout = (StackLayout) composite.getLayout();
@@ -95,11 +114,11 @@ public class TransportReportController {
 
 	}
 	public void CreateReport(int mounth, int year) {
-		this.transportReport = new TransportReportModel(employee.getEmployee(),mounth,year);
+		this.transportReport = new TransportReportModel(employees.getSelectedEmployee(),mounth,year);
 	}
 	
-    public void ImportXMLFile(Composite parent) {
-		String pathFileXML = TransportReportUtil.SelectFile(parent.getShell());
+    public void ImportXMLFile() {
+		String pathFileXML = SelectFile();
 		if(pathFileXML != null) {
 			try {
 				File fileIn = new File(pathFileXML);
@@ -112,5 +131,13 @@ public class TransportReportController {
 			}
 		}
     }
-
+    public String SelectFile() {
+		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+		String[] filterNames = new String[] {"XML files", "All Files (*)"};
+		String[] filterExtensions = new String[] {"*.xml", "*"};
+		dialog.setFilterNames(filterNames);
+		dialog.setFilterExtensions(filterExtensions);
+		String path = dialog.open();
+		return path;
+    }
 }

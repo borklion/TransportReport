@@ -16,10 +16,6 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
-
 import ru.borklion.view.MainWindow;
 
 public class TransportReportUtil {
@@ -30,15 +26,6 @@ public class TransportReportUtil {
         catch (NumberFormatException e) {
             return defaultValue;
         }
-    }
-    static public String SelectFile(Shell shell) {
-    		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-    		String[] filterNames = new String[] {"XML files", "All Files (*)"};
-    		String[] filterExtensions = new String[] {"*.xml", "*"};
-    		dialog.setFilterNames(filterNames);
-    		dialog.setFilterExtensions(filterExtensions);
-    		String path = dialog.open();
-    		return path;
     }
 
     

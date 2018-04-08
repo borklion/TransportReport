@@ -3,22 +3,13 @@ package ru.borklion.view;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 
-import ru.borklion.dao.TransportReport;
-import ru.borklion.utils.TransportReportUtil;
-
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class TripsComposite extends Composite {
-	
+	private Button btnNewButton;
 	private Table table;
 
 	/**
@@ -38,16 +29,18 @@ public class TripsComposite extends Composite {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		Button btnNewButton = new Button(this, SWT.NONE);
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				TransportReportUtil.ImportXMLFile(parent);
-			}
-		});
+		
+		btnNewButton = new Button(this, SWT.NONE);
+//		btnNewButton.addSelectionListener(new SelectionAdapter() {
+
+//		});
 		btnNewButton.setBounds(10, 10, 94, 28);
 		btnNewButton.setText("New Button");
 
+	}
+	
+	public Button getNewButton() {
+		return btnNewButton;
 	}
 
 	@Override
