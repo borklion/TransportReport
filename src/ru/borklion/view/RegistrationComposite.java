@@ -5,23 +5,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
-import ru.borklion.controllers.TransportReportController;
-
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class RegistrationComposite extends Composite {
 	private Text textFIO;
 	private Text textDepartment;
 	private Text textBoss;
 	private Text textAccountant;
+	private Button buttonSave;
 
-	/**
-	 * Create the composite.
-	 * @param parent
-	 * @param style
-	 */
 	public RegistrationComposite(Composite parent, int style) {
 		super(parent, style);
 		
@@ -53,18 +45,18 @@ public class RegistrationComposite extends Composite {
 		textAccountant = new Text(this, SWT.BORDER);
 		textAccountant.setBounds(116, 65, 300, 19);
 		
-		Button buttonSave = new Button(this, SWT.NONE);
-		buttonSave.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				TransportReportController.SaveEmployee(textFIO.getText(),textDepartment.getText(),textBoss.getText(),textAccountant.getText());
-				SelectNewDateReportComposite selectNewDateReportComposite = new SelectNewDateReportComposite(parent, SWT.NONE);
-				TransportReportController.ViewCompositeStackLayout(parent, selectNewDateReportComposite);
-			}
-		});
+		buttonSave = new Button(this, SWT.NONE);
 		buttonSave.setBounds(116, 90, 94, 28);
 		buttonSave.setText("Сохранить");
 
+	}
+	
+	public Button getButtonSave() {
+		return buttonSave;
+	}
+	
+	public String[] getTextField() {
+		return new String[] {textFIO.getText(),textDepartment.getText(),textBoss.getText(),textAccountant.getText()};
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package ru.borklion.view;
+package ru.borklion.view.dialogs;
 
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;

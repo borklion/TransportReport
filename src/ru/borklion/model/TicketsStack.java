@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import ru.borklion.dao.Ticket;
+
 public enum TicketsStack {
 	INSTANCE;
 	

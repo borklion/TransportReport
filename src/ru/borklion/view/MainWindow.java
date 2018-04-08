@@ -7,10 +7,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import ru.borklion.controllers.TransportReportController;
-
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -18,9 +14,15 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 
 public class MainWindow {
+	
+	private Shell shell;
+	private Composite composite;
+	private Button button;
 
-	protected Shell shell;
-
+	public MainWindow(Shell shell) {
+		this.shell = shell;
+	}
+	
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
@@ -37,7 +39,6 @@ public class MainWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
 		shell.setSize(700, 400);
 		shell.setText("Transport Report Util");
 		shell.setLayout(new FormLayout());
@@ -48,7 +49,7 @@ public class MainWindow {
 		labelMain.setLayoutData(fd_labelMain);
 		labelMain.setFont(SWTResourceManager.getFont(".AppleSystemUIFont", 12, SWT.NORMAL));
 		
-		Button button = new Button(shell, SWT.NONE);
+		button = new Button(shell, SWT.NONE);
 		fd_labelMain.top = new FormAttachment(button, 6, SWT.TOP);
 		fd_labelMain.left = new FormAttachment(button, 6);
 		FormData fd_button = new FormData();
@@ -58,7 +59,7 @@ public class MainWindow {
 		button.setLayoutData(fd_button);
 		button.setText("Войти");
 		
-		Composite composite = new Composite(shell, SWT.NONE);
+		composite = new Composite(shell, SWT.NONE);
 		composite.setVisible(false);
 		StackLayout layout = new StackLayout();
 		composite.setLayout(layout);
@@ -68,14 +69,11 @@ public class MainWindow {
 		fd_composite.right = new FormAttachment(0, 700);
 		fd_composite.left = new FormAttachment(0);
 		composite.setLayoutData(fd_composite);
-
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				TransportReportController.Logon(composite);
-				composite.setVisible(true);
-			}
-		});
-		
+	}
+	public Button getButtonLogon() {
+		return this.button;
+	}
+	public Composite getComposite() {
+		return this.composite;
 	}
 }

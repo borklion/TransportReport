@@ -1,10 +1,17 @@
-package ru.borklion.model;
+package ru.borklion.dao;
 
 public class Employee {
 	private String fio;
 	private String department;
 	private String boss;
 	private String accountant;
+	
+	public Employee(String fio, String department, String boss, String accountant) {
+		this.fio = fio;
+		this.department = department;
+		this.boss = boss;
+		this.accountant = accountant;
+	}
 	
 	public String getFio() {
 		return fio;

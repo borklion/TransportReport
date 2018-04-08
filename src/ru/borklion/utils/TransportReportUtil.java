@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +17,9 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import ru.borklion.controllers.TransportReportController;
 import ru.borklion.view.MainWindow;
 
 public class TransportReportUtil {
@@ -45,22 +41,6 @@ public class TransportReportUtil {
     		return path;
     }
 
-    static public void ImportXMLFile(Composite parent) {
-		String pathFileXML = TransportReportUtil.SelectFile(parent.getShell());
-		if(pathFileXML != null) {
-			try {
-				File fileIn = new File(pathFileXML);
-				List<String[]> listTrip = TransportReportUtil.XMLParse(fileIn);
-				for(String[] el:listTrip) {
-//					Date dateTrip = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(el[3]);
-					TransportReportController.addTrip(el);
-				}
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-    }
     
     static public List<String[]> XMLParse(File file) throws FileNotFoundException, IOException {
         List<String[]> calls = new ArrayList<>();

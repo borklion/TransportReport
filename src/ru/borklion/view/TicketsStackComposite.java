@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
 import ru.borklion.model.TicketsStack;
+import ru.borklion.view.dialogs.AddTicketDialog;
 
 import java.util.Observable;
 import java.util.Observer;

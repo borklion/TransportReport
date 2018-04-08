@@ -10,7 +10,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 
-import ru.borklion.model.TransportReport;
+import ru.borklion.dao.TransportReport;
 import ru.borklion.utils.TransportReportUtil;
 
 import org.eclipse.swt.widgets.Button;
