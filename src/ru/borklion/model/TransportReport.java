@@ -1,4 +1,4 @@
-package ru.borklion;
+package ru.borklion.model;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,11 +1,11 @@
-package ru.borklion.gui;
+package ru.borklion.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
-import ru.borklion.TransportReportController;
+import ru.borklion.controllers.TransportReportController;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;

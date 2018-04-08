@@ -1,9 +1,9 @@
-package ru.borklion.gui;
+package ru.borklion.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 
-import ru.borklion.TransportReportController;
+import ru.borklion.controllers.TransportReportController;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;

@@ -1,4 +1,4 @@
-package ru.borklion;
+package ru.borklion.controllers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,12 +8,34 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ru.borklion.gui.RegistrationComposite;
-import ru.borklion.gui.SelectEmployeeComposite;
+import ru.borklion.model.Employee;
+import ru.borklion.model.TransportReport;
+import ru.borklion.view.MainWindow;
+import ru.borklion.view.RegistrationComposite;
+import ru.borklion.view.SelectEmployeeComposite;
+import ru.borklion.view.dialogs.Dialogs;
 
 public class TransportReportController {
-	private static Employee employee = new Employee();
+	private Employee employee;
 	private TransportReport transportReport;
+	
+    public static void main(String[] args) {
+        try {
+            new TransportReportController();
+        } catch (Throwable e) {
+            Dialogs.showError(null, "Fatal error", String.format("The necessary libraries could not be loaded: '%s'", e.getMessage()));
+            throw e;
+        }
+    }
+    
+    public TransportReportController() {
+		try {
+			MainWindow window = new MainWindow();
+			window.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 	
 	public static void Logon(Composite composite) {
 		if(true) {
@@ -37,16 +59,16 @@ public class TransportReportController {
 		composite.layout();
 
 	}
-	public static void SaveEmployee(String strFIO, String strDepartment, String strBoss, String strAccountant) {
+	public void SaveEmployee(String strFIO, String strDepartment, String strBoss, String strAccountant) {
 		employee.setFio(strFIO);
 		employee.setDepartment(strDepartment);
 		employee.setBoss(strBoss);
 		employee.setAccountant(strAccountant);
 	}
-	public static void CreateReport(int mounth, int year) {
+	public void CreateReport(int mounth, int year) {
 		this.transportReport = new TransportReport(employee,mounth,year);
 	}
-	public static void addTrip(String[] arg) {
+	public void addTrip(String[] arg) {
 		Date dateTrip;
 		try {
 			dateTrip = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(arg[3]);

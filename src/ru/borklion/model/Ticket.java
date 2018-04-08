@@ -1,4 +1,4 @@
-package ru.borklion;
+package ru.borklion.model;
 
 public class Ticket {
 	private String serial;

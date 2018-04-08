@@ -1,4 +1,4 @@
-package ru.borklion.gui;
+package ru.borklion.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -10,8 +10,8 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 
-import ru.borklion.TransportReport;
-import ru.borklion.TransportReportUtil;
+import ru.borklion.model.TransportReport;
+import ru.borklion.utils.TransportReportUtil;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;

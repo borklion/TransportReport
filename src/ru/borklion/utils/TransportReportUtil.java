@@ -1,4 +1,4 @@
-package ru.borklion;
+package ru.borklion.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,7 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import ru.borklion.gui.MainWindow;
+import ru.borklion.controllers.TransportReportController;
+import ru.borklion.view.MainWindow;
 
 public class TransportReportUtil {
     static int stringToInt(String val, int defaultValue) {

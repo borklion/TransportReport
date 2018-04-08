@@ -1,9 +1,9 @@
-package ru.borklion.gui;
+package ru.borklion.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
-import ru.borklion.TicketsStack;
+import ru.borklion.model.TicketsStack;
 
 import java.util.Observable;
 import java.util.Observer;

@@ -1,4 +1,4 @@
-package ru.borklion;
+package ru.borklion.utils;
 
 public class SaveLibreOfficeUtil {
     public static void SaveReport() {

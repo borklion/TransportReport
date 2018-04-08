@@ -1,8 +1,8 @@
-package ru.borklion.gui;
+package ru.borklion.view;
 
 import org.eclipse.swt.widgets.Composite;
 
-import ru.borklion.TransportReportController;
+import ru.borklion.controllers.TransportReportController;
 
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.SWT;
