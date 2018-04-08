@@ -2,7 +2,6 @@ package ru.borklion.view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -24,15 +23,7 @@ public class MainWindow {
 	}
 	
 	public void open() {
-		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
 	}
 
 	/**
@@ -71,9 +62,9 @@ public class MainWindow {
 		composite.setLayoutData(fd_composite);
 	}
 	public Button getButtonLogon() {
-		return this.button;
+		return button;
 	}
 	public Composite getComposite() {
-		return this.composite;
+		return composite;
 	}
 }

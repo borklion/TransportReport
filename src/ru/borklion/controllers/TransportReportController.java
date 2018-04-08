@@ -9,6 +9,7 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -38,15 +39,24 @@ public class TransportReportController {
     
     public TransportReportController() {
 		try {
+			Display display = Display.getDefault();
 			shell = new Shell();
 			MainWindow window = new MainWindow(shell);
-			window.getButtonLogon().addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Logon(window.getComposite());
-			}
-		});
 			window.open();
+			window.getButtonLogon().addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					Logon(window.getComposite());
+				}
+			});
+			shell.open();
+			shell.layout();
+			while (!shell.isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,7 +66,7 @@ public class TransportReportController {
 		employees = new EmployeeModel();
 		String[] items = employees.getAll();
 		if(items.length > 0) {
-			SelectEmployeeComposite selectEmployeeComposite = new SelectEmployeeComposite(composite, SWT.None);
+			SelectEmployeeComposite selectEmployeeComposite = new SelectEmployeeComposite(composite, SWT.NONE);
 			selectEmployeeComposite.getCombo().setItems(items);
 			ViewCompositeStackLayout(composite, selectEmployeeComposite);
 			selectEmployeeComposite.getButtonLogon().addSelectionListener(new SelectionAdapter() {
