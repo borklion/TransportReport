@@ -4,13 +4,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Table;
-
 import org.eclipse.swt.widgets.Button;
 
 public class TripsComposite extends Composite {
 	private Button btnNewButton;
-	private Table table;
+	private TripsViewer tripsViewer;
 
 	/**
 	 * Create the composite.
@@ -24,16 +22,10 @@ public class TripsComposite extends Composite {
 		lblNewLabel.setBounds(110, 17, 59, 14);
 		lblNewLabel.setText("New Label");
 		
-		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 44, 18, 34);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		
+		tripsViewer = new TripsViewer(this,SWT.BORDER|SWT.V_SCROLL|SWT.FULL_SELECTION);
+		tripsViewer.getTable().setBounds(10, 54, 700, 200);
 		
 		btnNewButton = new Button(this, SWT.NONE);
-//		btnNewButton.addSelectionListener(new SelectionAdapter() {
-
-//		});
 		btnNewButton.setBounds(10, 10, 94, 28);
 		btnNewButton.setText("New Button");
 
@@ -41,6 +33,10 @@ public class TripsComposite extends Composite {
 	
 	public Button getNewButton() {
 		return btnNewButton;
+	}
+	
+	public TripsViewer getTripsViewer() {
+		return tripsViewer;
 	}
 
 	@Override

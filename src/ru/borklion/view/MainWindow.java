@@ -28,9 +28,10 @@ public class MainWindow {
 
 	/**
 	 * Create contents of the window.
+	 * @wbp.parser.entryPoint
 	 */
 	protected void createContents() {
-		shell.setSize(700, 400);
+		shell.setSize(1000, 400);
 		shell.setText("Transport Report Util");
 		shell.setLayout(new FormLayout());
 		
@@ -57,7 +58,7 @@ public class MainWindow {
 		FormData fd_composite = new FormData();
 		fd_composite.top = new FormAttachment(labelMain, 6);
 		fd_composite.bottom = new FormAttachment(100);
-		fd_composite.right = new FormAttachment(0, 700);
+		fd_composite.right = new FormAttachment(0, 1000);
 		fd_composite.left = new FormAttachment(0);
 		composite.setLayoutData(fd_composite);
 	}

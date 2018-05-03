@@ -16,10 +16,10 @@ public class TripsAndTicketsComposite extends Composite {
 		super(parent, style);
 		
 		tripsComposite = new TripsComposite(this, SWT.NONE);
-		tripsComposite.setBounds(10, 10, 64, 64);
+		tripsComposite.setBounds(180, 10, 700, 300);
 		
 		ticketsStackComposite = new TicketsStackComposite(this, SWT.NONE);
-		ticketsStackComposite.setBounds(300, 10, 140, 295);
+		ticketsStackComposite.setSize(140, 295);
 
 	}
 	

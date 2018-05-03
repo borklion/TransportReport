@@ -27,7 +27,11 @@ public class TransportReportUtil {
             return defaultValue;
         }
     }
-
+    
+    public static boolean isNullOrBlank(String s)
+    {
+      return (s==null || s.trim().equals(""));
+    }
     
     static public List<String[]> XMLParse(File file) throws FileNotFoundException, IOException {
         List<String[]> calls = new ArrayList<>();

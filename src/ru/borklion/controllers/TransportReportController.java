@@ -3,6 +3,8 @@ package ru.borklion.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -14,6 +16,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.model.EmployeeModel;
+import ru.borklion.model.TicketsStack;
 import ru.borklion.model.TransportReportModel;
 import ru.borklion.utils.TransportReportUtil;
 import ru.borklion.view.MainWindow;
@@ -21,12 +24,15 @@ import ru.borklion.view.RegistrationComposite;
 import ru.borklion.view.SelectEmployeeComposite;
 import ru.borklion.view.SelectNewDateReportComposite;
 import ru.borklion.view.TripsAndTicketsComposite;
+import ru.borklion.view.dialogs.AddTicketDialog;
 import ru.borklion.view.dialogs.Dialogs;
 
 public class TransportReportController {
 	private EmployeeModel employees;
 	private TransportReportModel transportReport;
 	private Shell shell;
+	
+	private TripsAndTicketsComposite tripsAndTicketsComposite;
 	
     public static void main(String[] args) {
         try {
@@ -82,10 +88,6 @@ public class TransportReportController {
 			Registration(composite);
 		}
 		composite.setVisible(true);
-		//создание объекта employee
-		//замена кнопки Вход на Выход
-		//выбор даты отчета
-		//создание объекта TransportReport
 	}
 	
 	public void Registration(Composite composite) {
@@ -102,14 +104,34 @@ public class TransportReportController {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					CreateReport(selectNewDateReportComposite.getDateReport().getMonth(),selectNewDateReportComposite.getDateReport().getYear());
-					TripsAndTicketsComposite tripsAndTicketsComposite = new TripsAndTicketsComposite(composite, SWT.NONE);
+					tripsAndTicketsComposite = new TripsAndTicketsComposite(composite, SWT.NONE);
 					ViewCompositeStackLayout(composite, tripsAndTicketsComposite);
 					tripsAndTicketsComposite.getTripsComposite().getNewButton().addSelectionListener(new SelectionAdapter() {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							ImportXMLFile();
 						}
-					});;
+					});
+					tripsAndTicketsComposite.getTripsComposite().getTripsViewer().setInput(transportReport);
+					tripsAndTicketsComposite.getTicketsStackComposite().getAddButton().addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							AddTicketDialog dialog = new AddTicketDialog(shell, SWT.DIALOG_TRIM);
+							dialog.open();
+						}
+					});
+					tripsAndTicketsComposite.getTicketsStackComposite().getDeleteButton().addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							TicketsStack.INSTANCE.DeleteTicket(tripsAndTicketsComposite.getTicketsStackComposite().getListTickets().getSelectionIndex());
+						}
+					});
+					TicketsStack.INSTANCE.addListener(new Observer() {
+						@Override
+						public void update(Observable o, Object arg) {
+							tripsAndTicketsComposite.getTicketsStackComposite().getListTickets().setItems((String[])arg);
+						}
+					});
 				}
 			});
 
@@ -124,7 +146,7 @@ public class TransportReportController {
 
 	}
 	public void CreateReport(int mounth, int year) {
-		this.transportReport = new TransportReportModel(employees.getSelectedEmployee(),mounth,year);
+		transportReport = new TransportReportModel(employees.getSelectedEmployee(),mounth,year);
 	}
 	
     public void ImportXMLFile() {
@@ -136,6 +158,8 @@ public class TransportReportController {
 				for(String[] el:listTrip) {
 					transportReport.addTrip(el);
 				}
+				tripsAndTicketsComposite.getTripsComposite().getTripsViewer().refresh();
+
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -148,6 +172,7 @@ public class TransportReportController {
 		dialog.setFilterNames(filterNames);
 		dialog.setFilterExtensions(filterExtensions);
 		String path = dialog.open();
+//		System.out.println(path);
 		return path;
     }
 }

@@ -32,6 +32,11 @@ public enum TicketsStack {
 		this.notifyListener();
 	}
 	
+	public void DeleteTicket(int t) {
+		stackTickets.remove(t);
+		this.notifyListener();
+	}
+	
 	public void notifyListener() {
 		for(Observer o:this.listener) {
 			o.update(this.o, this.getTickets());
