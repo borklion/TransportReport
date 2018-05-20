@@ -7,9 +7,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
-import ru.borklion.model.TicketsStack;
-import ru.borklion.utils.TransportReportUtil;
-
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -21,6 +18,7 @@ public class AddTicketDialog extends Dialog {
 	private Text text;
 	private Text text_1;
 	private Text text_2;
+	private Button btnOk;
 
 	/**
 	 * Create the dialog.
@@ -79,19 +77,26 @@ public class AddTicketDialog extends Dialog {
 		text_2 = new Text(shell, SWT.BORDER);
 		text_2.setBounds(75, 50, 115, 19);
 		
-		Button btnOk = new Button(shell, SWT.NONE);
+		btnOk = new Button(shell, SWT.NONE);
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!TransportReportUtil.isNullOrBlank(text.getText()) && !TransportReportUtil.isNullOrBlank(text_1.getText()) && !TransportReportUtil.isNullOrBlank(text_2.getText())) {
-					TicketsStack.INSTANCE.AddTicket(new String[] {text.getText(),text_1.getText(),text_2.getText()});
-					result = Boolean.TRUE;
-					shell.close();
-				}
 			}
 		});
 		btnOk.setBounds(53, 75, 94, 28);
 		btnOk.setText("OK");
 
+	}
+	public String[] getField() {
+		return new String[] {text.getText(),text_1.getText(),text_2.getText()};
+	}
+	public void addOkButtonListener(SelectionAdapter listener) {
+		btnOk.addSelectionListener(listener);
+	}
+	public void changeResult(Object result) {
+		this.result = result;
+	}
+	public void close() {
+		shell.close();
 	}
 }

@@ -9,13 +9,13 @@ import ru.borklion.dao.Employee;
 import ru.borklion.dao.TransportReport;
 import ru.borklion.dao.Trip;
 
-public class TransportReportModel {
+public class TransportReportModel extends AbstractModel {
 	private TransportReport transportReport;
-	
+
 	public TransportReportModel(Employee employee, int mounth, int year) {
 		transportReport = new TransportReport(employee, mounth, year);
 	}
-	
+
 	public void addTrip(String[] arg) {
 		Date dateTrip;
 		List<Trip> trips = transportReport.getTrips();
@@ -27,8 +27,16 @@ public class TransportReportModel {
 		trips.add(new Trip(arg[0], arg[2], dateTrip));
 		transportReport.setTrips(trips);
 	}
-	
+
 	public List<Trip> getTrips() {
 		return transportReport.getTrips();
+	}
+
+	public int getNumberTickets() {
+		int numberTickets = 0;
+		for (Trip trip : transportReport.getTrips()) {
+			numberTickets = +trip.getNumberOfBusStop();
+		}
+		return numberTickets;
 	}
 }

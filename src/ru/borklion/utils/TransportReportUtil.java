@@ -16,7 +16,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import ru.borklion.view.MainWindow;
+import ru.borklion.view.TransportReportEditor;
 
 public class TransportReportUtil {
     static int stringToInt(String val, int defaultValue) {
@@ -59,7 +59,7 @@ public class TransportReportUtil {
             }
         }
         catch(XMLStreamException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransportReportEditor.class.getName()).log(Level.SEVERE, null, ex);
         
         }
         stream.close();

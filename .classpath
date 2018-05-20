@@ -12,5 +12,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding_1.6.100.v20170515-1119.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.source_1.6.100.v20170515-1119.jar"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.beans_1.4.0.v20170210-0856.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.beans.source_1.4.0.v20170210-0856.jar"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.observable_1.6.100.v20170515-1119.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.observable.source_1.6.100.v20170515-1119.jar"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.property_1.6.100.v20170515-1119.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.core.databinding.property.source_1.6.100.v20170515-1119.jar"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.jface.databinding_1.8.100.v20170503-1507.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.jface.databinding.source_1.8.100.v20170503-1507.jar"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar" sourcepath="/Applications/Eclipse.app/Contents/Eclipse/plugins/com.ibm.icu.source_58.2.0.v20170418-1837.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

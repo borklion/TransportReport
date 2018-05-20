@@ -1,12 +1,10 @@
 package ru.borklion.model;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import ru.borklion.dao.Trip;
 
@@ -14,47 +12,29 @@ public class ReportLabelProvider implements ITableLabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
-		
-		if(columnIndex == TripsColumn.COLUMN_FLAGRETURNBASE_INDEX) {
-			LocalResourceManager lrManager = new LocalResourceManager(JFaceResources.getResources(),
-	                Display.getCurrent().getShells()[0]);
-			ImageDescriptor imageDescriptorTrue = ImageDescriptor.createFromFile(
-	                ReportLabelProvider.class,
-	                "/ru/borklion/images/checktrue.png");
-			Image imageTrue = lrManager.createImage(imageDescriptorTrue);
-			ImageDescriptor imageDescriptorFalse = ImageDescriptor.createFromFile(
-	                ReportLabelProvider.class,
-	                "/ru/borklion/images/checkfalse.png");
-			Image imageFalse = lrManager.createImage(imageDescriptorFalse);
+		if(columnIndex == 5) {
 			Trip trip = (Trip) element;
 			if(trip.isFlagReturnBase()) {
-				return new Image(Display.getCurrent(),imageTrue.getImageData(2));
+				return new Image(Display.getCurrent(),SWTResourceManager.getImage(ReportLabelProvider.class, "/ru/borklion/images/checktrue.png").getImageData(2));
 			}
-			else return new Image(Display.getCurrent(),imageFalse.getImageData(2));
+			else return new Image(Display.getCurrent(),SWTResourceManager.getImage(ReportLabelProvider.class, "/ru/borklion/images/checkfalse.png").getImageData(2));
 		}
 		else return null;
 	}
@@ -64,25 +44,25 @@ public class ReportLabelProvider implements ITableLabelProvider {
 		Trip trip = (Trip) element;
 		String text = "";
 		switch (columnIndex) {
-		case TripsColumn.COLUMN_DATETRIP_INDEX:
+		case 0:
 			text = "" + trip.getDateTrip();
 			break;
-		case TripsColumn.COLUMN_IDREQUEST_INDEX:
+		case 1:
 			text = trip.getIdRequest();
 			break;
-		case TripsColumn.COLUMN_ADDRESS_INDEX:
+		case 2:
 			text = trip.getAddress();
 			break;
-		case TripsColumn.COLUMN_TRANSPORTTYPE_INDEX:
+		case 3:
 			text = trip.getTransportType();
 			break;
-		case TripsColumn.COLUMN_NUMBEROFBUSSTOP_INDEX:
+		case 4:
 			text = "" + trip.getNumberOfBusStop();
 			break;
-		case TripsColumn.COLUMN_FLAGRETURNBASE_INDEX:
+		case 5:
 			text = "";
 			break;
-		case TripsColumn.COLUMN_TICKETS_INDEX:
+		case 6:
 			text = trip.getTickets().toString();
 			break;
 
