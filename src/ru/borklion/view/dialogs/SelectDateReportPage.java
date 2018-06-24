@@ -33,6 +33,9 @@ public class SelectDateReportPage extends WizardPage implements Listener {
 		dateTime.addListener(SWT.Selection, this);
 	}
 
+	public int[] getDateSelected() {
+		return new int[] {dateTime.getMonth(),dateTime.getYear()};
+	}
 	@Override
 	public void handleEvent(Event event) {
 		if(event.widget.equals(dateTime)) {

@@ -29,11 +29,11 @@ public class TransportReportEditor extends ApplicationWindow {
 
 	public TransportReportEditor(Shell shell, TransportReportController controller) {
 		super(shell);
+		this.controller = controller;
 		createActions();
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
-		this.controller = controller;
 	}
 
 	// public void open() {
@@ -49,7 +49,7 @@ public class TransportReportEditor extends ApplicationWindow {
 
 		ticketsStackComposite = new TicketsStackComposite(composite, SWT.NONE);
 		ticketsStackComposite.setEnabled(false);
-		ticketsStackComposite.setSize(140, 295);
+		ticketsStackComposite.setSize(150, 350);
 		ticketsStackComposite.addAddButtonListener(controller.AddClickTicketsStackAddButton());
 		ticketsStackComposite.addDeleteButtonListener(controller.AddClickTicketsStackDeleteButton());
 		return composite;
@@ -63,7 +63,7 @@ public class TransportReportEditor extends ApplicationWindow {
 		{
 			actionLogon = new Action("Войти") {
 				public void run() {
-					WizardDialog dialogLogonWizard = new WizardDialog(getShell(), new LogonWizard());
+					WizardDialog dialogLogonWizard = new WizardDialog(getShell(), new LogonWizard(controller));
 					dialogLogonWizard.create();
 					dialogLogonWizard.open();
 				}
@@ -126,8 +126,8 @@ public class TransportReportEditor extends ApplicationWindow {
 	public void TripsRefresh() {
 		tripsComposite.getTripsViewer().refresh();
 	}
-	public void setTicketsStackModel(TicketsStackModel model) {
-		ticketsStackComposite.setModel(model);
+	public TicketsStackModel getTicketsStackModel() {
+		return ticketsStackComposite.getModel();
 	}
 	public void setTripsModel(TransportReportModel model) {
 		tripsComposite.setModel(model);
@@ -135,4 +135,9 @@ public class TransportReportEditor extends ApplicationWindow {
 	public int getTicketsStackSelectionIndex() {
 		return ticketsStackComposite.getSelectionIndex();
 	}
+	public void enabledViewers() {
+		tripsComposite.setEnabled(true);
+		ticketsStackComposite.setEnabled(true);
+	}
+	
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ru.borklion.model.Ticket;
+
 public class Trip {
 	private Date dateTrip;
 	private String idRequest;

@@ -13,22 +13,26 @@ public class TripsComposite extends Composite {
 	private Button btnNewButton;
 	private TripsViewer tripsViewer;
 	private Label labelTrips;
-	private TransportReportModel model;
+//	private TransportReportModel model;
 
 	public TripsComposite(Composite parent, int style) {
 		super(parent, style);
 		
 		labelTrips = new Label(this, SWT.NONE);
-		labelTrips.setBounds(146, 10, 564, 28);
+		labelTrips.setBounds(280, 10, 430, 28);
 		labelTrips.setText("");
 		
 		tripsViewer = new TripsViewer(this,SWT.BORDER|SWT.V_SCROLL|SWT.FULL_SELECTION);
 		tripsViewer.getTable().setBounds(10, 54, 700, 200);
-		tripsViewer.setInput(model);
+//		tripsViewer.setInput(model);
 		
 		btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.setBounds(10, 10, 130, 28);
 		btnNewButton.setText("Загрузить XML");
+		
+		Label label = new Label(this, SWT.NONE);
+		label.setBounds(146, 10, 113, 28);
+		label.setText("Требуется билетов");
 		
 	}
 	
@@ -43,7 +47,8 @@ public class TripsComposite extends Composite {
 		labelTrips.setText(text);;
 	}
 	public void setModel(TransportReportModel model) {
-		this.model = model;
+//		this.model = model;
+		tripsViewer.setInput(model);
 	}
 	@Override
 	protected void checkSubclass() {

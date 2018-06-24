@@ -3,19 +3,22 @@ package ru.borklion.view.dialogs;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import ru.borklion.model.EmployeeModel;
+import ru.borklion.utils.TransportReportUtil;
 
-public class RegistrationPage extends WizardPage {
+public class RegistrationPage extends WizardPage implements Listener {
 	private Text textFIO;
 	private Text textDepartment;
 	private Text textBoss;
 	private Text textAccountant;
-
 	/**
 	 * Create the wizard.
 	 */
-	public RegistrationPage() {
+	public RegistrationPage(EmployeeModel model) {
 		super("wizardPage");
 		setTitle("Регистрация");
 		setDescription("Заполните поля");
@@ -55,6 +58,28 @@ public class RegistrationPage extends WizardPage {
 		textAccountant = new Text(container, SWT.BORDER);
 		textAccountant.setBounds(116, 65, 300, 19);
 		setControl(container);
+		addListener();
+	}
+	private void addListener() {
+		textFIO.addListener(SWT.KeyUp, this);
+		textDepartment.addListener(SWT.KeyUp, this);
+		textBoss.addListener(SWT.KeyUp, this);
+		textAccountant.addListener(SWT.KeyUp, this);
+	}
+	public boolean canFlipToNextPage(){
+		if(!TransportReportUtil.isNullOrBlank(textFIO.getText()) && 
+				!TransportReportUtil.isNullOrBlank(textDepartment.getText()) &&
+				!TransportReportUtil.isNullOrBlank(textBoss.getText()) &&
+				!TransportReportUtil.isNullOrBlank(textAccountant.getText())) return true;
+		return false;
+	}
+	
+	public String[] getFieldText() {
+		return new String[] {textFIO.getText(),textDepartment.getText(),textBoss.getText(),textAccountant.getText()};
 	}
 
+	@Override
+	public void handleEvent(Event event) {
+		getWizard().getContainer().updateButtons();
+	}
 }

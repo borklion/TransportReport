@@ -3,6 +3,9 @@ package ru.borklion.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -11,6 +14,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.model.EmployeeModel;
+import ru.borklion.model.Ticket;
 import ru.borklion.model.TicketsStackModel;
 import ru.borklion.model.TransportReportModel;
 import ru.borklion.utils.TransportReportUtil;
@@ -39,75 +43,33 @@ public class TransportReportController {
 	public TransportReportController() {
 		try {
 			shell = new Shell();
-			window = new TransportReportEditor(shell,this);
+			employees = new EmployeeModel();
+			window = new TransportReportEditor(shell, this);
 			window.setBlockOnOpen(true);
-			window.open();
+			Realm.runWithDefault(DisplayRealm.getRealm(Display.getCurrent()), new Runnable() {
+				@Override
+				public void run() {
+					window.open();
+				}
+			});
 			Display.getCurrent().dispose();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Dialogs.showError(shell, "Error", String.format("Error: '%s'", e.getMessage()));
+			throw e;
 		}
 	}
 
-//	public void Logon(Composite composite) {
-//		employees = new EmployeeModel();
-//		String[] items = employees.getAll();
-//		if (items.length > 0) {
-//			SelectEmployeeComposite selectEmployeeComposite = new SelectEmployeeComposite(composite, SWT.NONE);
-//			selectEmployeeComposite.getCombo().setItems(items);
-//			ViewCompositeStackLayout(composite, selectEmployeeComposite);
-//			selectEmployeeComposite.getButtonLogon().addSelectionListener(new SelectionAdapter() {
-//
-//			});
-//			selectEmployeeComposite.getButtonRegistration().addSelectionListener(new SelectionAdapter() {
-//				@Override
-//				public void widgetSelected(SelectionEvent e) {
-//					Registration(composite);
-//				}
-//			});
-//		} else {
-//			Registration(composite);
-//		}
-//		composite.setVisible(true);
-//	}
-//
-//	public void Registration(Composite composite) {
-//		RegistrationComposite registrationComposite = new RegistrationComposite(composite, SWT.NONE);
-//		ViewCompositeStackLayout(composite, registrationComposite);
-//		registrationComposite.getButtonSave().addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				String[] field = registrationComposite.getTextField();
-//				employees.addEmployee(field[0], field[1], field[2], field[3]);
-//				SelectNewDateReportComposite selectNewDateReportComposite = new SelectNewDateReportComposite(composite,
-//						SWT.NONE);
-//				ViewCompositeStackLayout(composite, selectNewDateReportComposite);
-//				selectNewDateReportComposite.getButton().addSelectionListener(new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						CreateReport(selectNewDateReportComposite.getDateReport().getMonth(),
-//								selectNewDateReportComposite.getDateReport().getYear());
-//						tripsAndTicketsComposite = new TripsAndTicketsComposite(composite, SWT.NONE);
-//						tripsAndTicketsComposite.getTripsComposite().getTripsViewer().setInput(transportReport);
-//					}
-//				});
-//
-//			}
-//		});
-//
-//	}
-
-//	public <T extends Composite> void ViewCompositeStackLayout(Composite composite, T customComposite) {
-//		StackLayout layout = (StackLayout) composite.getLayout();
-//		layout.topControl = customComposite;
-//		composite.layout();
-//
-//	}
+	public EmployeeModel getEmployeeModel() {
+		return employees;
+	}
 
 	public void CreateReport(int mounth, int year) {
 		transportReportModel = new TransportReportModel(employees.getSelectedEmployee(), mounth, year);
-		ticketsStackModel = new TicketsStackModel();
+		ticketsStackModel = window.getTicketsStackModel();
 		window.setTripsModel(transportReportModel);
-		window.setTicketsStackModel(ticketsStackModel);
+		// window.setTicketsStackModel(ticketsStackModel);
+		window.enabledViewers();
+		window.setStatus(employees.toString() + "; Дата отчета " + mounth + " " + year);
 	}
 
 	public void ImportXMLFile() {
@@ -122,7 +84,7 @@ public class TransportReportController {
 				window.TripsRefresh();
 
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Dialogs.showError(shell, "Error1", String.format("Error: '%s'", e1.getMessage()));
 			}
 		}
 	}
@@ -134,45 +96,35 @@ public class TransportReportController {
 		dialog.setFilterNames(filterNames);
 		dialog.setFilterExtensions(filterExtensions);
 		String path = dialog.open();
-		// System.out.println(path);
 		return path;
 	}
+
 	public SelectionAdapter AddClickTicketsStackAddButton() {
 		return new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				dialog = new AddTicketDialog(shell, SWT.DIALOG_TRIM);
+				dialog = new AddTicketDialog(shell, SWT.DIALOG_TRIM, ticketsStackModel);
 				dialog.open();
 			}
 		};
 	}
+
 	public SelectionAdapter AddClickTicketsStackDeleteButton() {
 		return new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ticketsStackModel.DeleteTicket(window.getTicketsStackSelectionIndex());
+				List<Ticket> ticketstemp = ticketsStackModel.getStackTickets();
+				ticketstemp.remove(window.getTicketsStackSelectionIndex());
+				ticketsStackModel.setStackTickets(ticketstemp);
 			}
 		};
 	}
+
 	public SelectionAdapter AddClickTripsImportButton() {
 		return new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ImportXMLFile();
-			}
-		};
-	}
-	public SelectionAdapter AddClickOkButtonDialogAddTicket() {
-		return new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				String[] field = dialog.getField();
-				if (!TransportReportUtil.isNullOrBlank(field[0]) && !TransportReportUtil.isNullOrBlank(field[1]) && !TransportReportUtil.isNullOrBlank(field[2])) {
-					ticketsStackModel.AddTicket(field);
-					dialog.changeResult(Boolean.TRUE);
-					dialog.close();
-				}
-
 			}
 		};
 	}

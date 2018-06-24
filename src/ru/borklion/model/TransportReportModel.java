@@ -5,15 +5,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import ru.borklion.dao.Employee;
 import ru.borklion.dao.TransportReport;
 import ru.borklion.dao.Trip;
 
 public class TransportReportModel extends AbstractModel {
 	private TransportReport transportReport;
+	private int numberTickets;
 
 	public TransportReportModel(Employee employee, int mounth, int year) {
 		transportReport = new TransportReport(employee, mounth, year);
+		numberTickets = 0;
+	}
+	
+	public TransportReport getTransportReport() {
+		return transportReport;
+	}
+	
+	public void setTransportReport(TransportReport transportReport) {
+		this.transportReport = transportReport;
+		firePropertyChange("transportReport", null, null);
 	}
 
 	public void addTrip(String[] arg) {
@@ -28,12 +38,8 @@ public class TransportReportModel extends AbstractModel {
 		transportReport.setTrips(trips);
 	}
 
-	public List<Trip> getTrips() {
-		return transportReport.getTrips();
-	}
-
 	public int getNumberTickets() {
-		int numberTickets = 0;
+		numberTickets = 0;
 		for (Trip trip : transportReport.getTrips()) {
 			numberTickets = +trip.getNumberOfBusStop();
 		}

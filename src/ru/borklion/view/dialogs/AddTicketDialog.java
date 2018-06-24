@@ -4,8 +4,15 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
+
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
+
+import ru.borklion.model.Ticket;
+import ru.borklion.model.TicketsStackModel;
+import ru.borklion.utils.TransportReportUtil;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -19,15 +26,17 @@ public class AddTicketDialog extends Dialog {
 	private Text text_1;
 	private Text text_2;
 	private Button btnOk;
+	private TicketsStackModel model;
 
 	/**
 	 * Create the dialog.
 	 * @param parent
 	 * @param style
 	 */
-	public AddTicketDialog(Shell parent, int style) {
+	public AddTicketDialog(Shell parent, int style, TicketsStackModel model) {
 		super(parent, style);
 		setText("SWT Dialog");
+		this.model = model;
 		result = Boolean.FALSE;
 	}
 
@@ -78,20 +87,28 @@ public class AddTicketDialog extends Dialog {
 		text_2.setBounds(75, 50, 115, 19);
 		
 		btnOk = new Button(shell, SWT.NONE);
-		btnOk.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
 		btnOk.setBounds(53, 75, 94, 28);
 		btnOk.setText("OK");
+		btnOk.addSelectionListener(
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						String[] field = getField();
+						if (!TransportReportUtil.isNullOrBlank(field[0]) && !TransportReportUtil.isNullOrBlank(field[1])
+								&& !TransportReportUtil.isNullOrBlank(field[2])) {
+							List<Ticket> modeltemp = model.getStackTickets();
+							modeltemp.add(new Ticket(field[0], field[1], Integer.parseInt(field[2])));
+							model.setStackTickets(modeltemp);
+							changeResult(Boolean.TRUE);
+							close();
+						}
+
+					}
+				}		);
 
 	}
 	public String[] getField() {
 		return new String[] {text.getText(),text_1.getText(),text_2.getText()};
-	}
-	public void addOkButtonListener(SelectionAdapter listener) {
-		btnOk.addSelectionListener(listener);
 	}
 	public void changeResult(Object result) {
 		this.result = result;

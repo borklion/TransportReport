@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ru.borklion.model.Employee;
+
 public class TransportReport {
 	private Date dateReport;
 	private Employee employee;

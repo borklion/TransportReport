@@ -8,13 +8,20 @@ import ru.borklion.model.TicketsStackModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.viewers.ListViewer;
+
+import org.eclipse.core.databinding.property.Properties;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.core.databinding.beans.PojoProperties;
 
 public class TicketsStackComposite extends Composite {
 	private DataBindingContext m_bindingContext;
+//	private DataBindingContext m_bindingContext;
 
 	/**
 	 * Create the composite.
@@ -27,33 +34,44 @@ public class TicketsStackComposite extends Composite {
 	private Button btnDeleteButton;
 	private Button btnUpButton;
 	private Button btnDownButton;
-	private List listTickets;
 	private TicketsStackModel model;
+	private List list;
+	private ListViewer listViewer;
+	private Label lblNumberTickets;
+	private Label label;
 	
 	public TicketsStackComposite(Composite parent, int style) {
 		super(parent, style);
-		
-		listTickets = new List(this, SWT.BORDER);
-		listTickets.setBounds(10, 10, 130, 251);
-
+		lblNumberTickets = new Label(this, SWT.NONE);
+		lblNumberTickets.setBounds(81, 10, 59, 39);
 		
 		btnAddButton = new Button(this, SWT.FLAT);
-		btnAddButton.setBounds(10, 267, 28, 28);
+		btnAddButton.setBounds(10, 312, 28, 28);
 		btnAddButton.setText("+");
 		
 		btnDeleteButton = new Button(this, SWT.FLAT);
-		btnDeleteButton.setBounds(44, 267, 28, 28);
+		btnDeleteButton.setBounds(44, 312, 28, 28);
 		btnDeleteButton.setText("-");
 		
 		btnUpButton = new Button(this, SWT.FLAT);
-		btnUpButton.setBounds(78, 267, 28, 28);
+		btnUpButton.setBounds(78, 312, 28, 28);
 		btnUpButton.setText(Character.toString((char)C));
 		
 		btnDownButton = new Button(this, SWT.FLAT);
-		btnDownButton.setBounds(112, 267, 28, 28);
+		btnDownButton.setBounds(112, 312, 28, 28);
 		btnDownButton.setText(Character.toString((char)D));
+		model = new TicketsStackModel();
+		listViewer = new ListViewer(this, SWT.BORDER | SWT.V_SCROLL);
+		list = listViewer.getList();
+		list.setBounds(10, 55, 130, 251);
+		ViewerSupport.bind(listViewer,
+				BeanProperties.list(model.getClass(), "stackTickets", String.class).observe(model),
+				Properties.selfValue(String.class));
+		
+		label = new Label(this, SWT.NONE);
+		label.setBounds(10, 10, 59, 39);
+		label.setText("Билетов:");
 		m_bindingContext = initDataBindings();
-
 	}
 	
 	public void addAddButtonListener(SelectionAdapter listener) {
@@ -72,29 +90,24 @@ public class TicketsStackComposite extends Composite {
 		btnDownButton.addSelectionListener(listener);
 	}
 	
-	public void setModel(TicketsStackModel model) {
-		this.model = model;
+	public TicketsStackModel getModel() {
+		return model;
 	}
 	
 	public int getSelectionIndex() {
-		return listTickets.getSelectionIndex();
+		return list.getSelectionIndex();
 	}
 
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
-//	@Override
-//	public void update(Observable o, Object arg) {
-//		listTickets.setItems((String[]) arg);
-//	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableList itemsListTicketsObserveWidget = WidgetProperties.items().observe(listTickets);
-		IObservableList ticketsModelObserveList = BeanProperties.list("tickets").observe(model);
-		bindingContext.bindList(itemsListTicketsObserveWidget, ticketsModelObserveList, null, null);
+		IObservableValue observeTextLblNumberTicketsObserveWidget_1 = WidgetProperties.text().observe(lblNumberTickets);
+		IObservableValue countTicketsModelObserveValue = BeanProperties.value("countTickets").observe(model);
+		bindingContext.bindValue(observeTextLblNumberTicketsObserveWidget_1, countTicketsModelObserveValue, null, null);
 		//
 		return bindingContext;
 	}

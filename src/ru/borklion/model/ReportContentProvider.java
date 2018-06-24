@@ -7,7 +7,7 @@ public class ReportContentProvider implements IStructuredContentProvider {
 	@Override
 	public Object[] getElements(Object inputElement) {
         if(inputElement instanceof TransportReportModel)
-            return ((TransportReportModel)inputElement).getTrips().toArray();
+            return ((TransportReportModel)inputElement).getTransportReport().getTrips().toArray();
         else return null;
 	}
 
