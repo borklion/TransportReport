@@ -9,7 +9,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.controllers.TransportReportController;
-import ru.borklion.model.TicketsStack;
 import ru.borklion.model.TransportReport;
 import ru.borklion.view.dialogs.LogonWizard;
 
@@ -62,8 +61,8 @@ public class TransportReportEditor extends ApplicationWindow {
 					ticketsStackComposite = new TicketsStackComposite(composite, SWT.NONE);
 					ticketsStackComposite.setEnabled(false);
 					ticketsStackComposite.setSize(150, 350);
-					ticketsStackComposite.addAddButtonListener(controller.AddClickTicketsStackAddButton());
-					ticketsStackComposite.addDeleteButtonListener(controller.AddClickTicketsStackDeleteButton());
+//					ticketsStackComposite.addAddButtonListener(controller.AddClickTicketsStackAddButton());
+//					ticketsStackComposite.addDeleteButtonListener(controller.AddClickTicketsStackDeleteButton());
 					dialogLogonWizard.create();
 					dialogLogonWizard.open();
 //					getShell().addKeyListener(controller.addPressedEnter());
@@ -126,9 +125,6 @@ public class TransportReportEditor extends ApplicationWindow {
 	}
 	public void TripsRefresh() {
 		tripsComposite.getTripsViewer().refresh();
-	}
-	public TicketsStack getTicketsStackModel() {
-		return ticketsStackComposite.getModel();
 	}
 	public void setTripsModel(TransportReport model) {
 		tripsComposite.setModel(model);

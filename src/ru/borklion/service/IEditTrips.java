@@ -1,4 +1,7 @@
-package ru.borklion.model;
+package ru.borklion.service;
+
+import ru.borklion.model.TransportType;
+import ru.borklion.model.Trip;
 
 public interface IEditTrips {
 	void addTrip(Trip trip);

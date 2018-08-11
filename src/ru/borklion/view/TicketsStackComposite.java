@@ -3,7 +3,7 @@ package ru.borklion.view;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
-import ru.borklion.model.TicketsStack;
+import ru.borklion.service.TicketsStackImpl;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,7 +20,6 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.core.databinding.beans.PojoProperties;
 
 public class TicketsStackComposite extends Composite {
-	private DataBindingContext m_bindingContext;
 
 	/**
 	 * Create the composite.
@@ -33,7 +32,6 @@ public class TicketsStackComposite extends Composite {
 	private Button btnDeleteButton;
 	private Button btnUpButton;
 	private Button btnDownButton;
-	private TicketsStack model;
 	private List list;
 	private ListViewer listViewer;
 	private Label lblNumberTickets;
@@ -59,18 +57,16 @@ public class TicketsStackComposite extends Composite {
 		btnDownButton = new Button(this, SWT.FLAT);
 		btnDownButton.setBounds(112, 312, 28, 28);
 		btnDownButton.setText(Character.toString((char)D));
-		model = new TicketsStack();
 		listViewer = new ListViewer(this, SWT.BORDER | SWT.V_SCROLL);
 		list = listViewer.getList();
 		list.setBounds(10, 55, 130, 251);
-		ViewerSupport.bind(listViewer,
-				BeanProperties.list(model.getClass(), "stackTickets", String.class).observe(model),
-				Properties.selfValue(String.class));
-		
+//		ViewerSupport.bind(listViewer,
+//				BeanProperties.list(model.getClass(), "stackTickets", String.class).observe(model),
+//				Properties.selfValue(String.class));
+//		
 		label = new Label(this, SWT.NONE);
 		label.setBounds(10, 10, 59, 39);
 		label.setText("Билетов:");
-		m_bindingContext = initDataBindings();
 	}
 	
 	public void addAddButtonListener(SelectionAdapter listener) {
@@ -88,11 +84,7 @@ public class TicketsStackComposite extends Composite {
 	public void addDownButtonListener(SelectionAdapter listener) {
 		btnDownButton.addSelectionListener(listener);
 	}
-	
-	public TicketsStack getModel() {
-		return model;
-	}
-	
+		
 	public int getSelectionIndex() {
 		return list.getSelectionIndex();
 	}
@@ -100,14 +92,5 @@ public class TicketsStackComposite extends Composite {
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
-	}
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue observeTextLblNumberTicketsObserveWidget_1 = WidgetProperties.text().observe(lblNumberTickets);
-		IObservableValue countTicketsModelObserveValue = BeanProperties.value("countTickets").observe(model);
-		bindingContext.bindValue(observeTextLblNumberTicketsObserveWidget_1, countTicketsModelObserveValue, null, null);
-		//
-		return bindingContext;
 	}
 }
