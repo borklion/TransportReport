@@ -4,7 +4,7 @@ import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Item;
 
-import ru.borklion.dao.Trip;
+import ru.borklion.model.Trip;
 import ru.borklion.model.TripsColumn;
 
 public class TripsCellModifer implements ICellModifier {

@@ -3,12 +3,12 @@ package ru.borklion.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketsStackModel extends AbstractModel{
+public class TicketsStack extends AbstractModel{
 
 	private List<Ticket> stackTickets;
 	private int countTickets;
 
-	public TicketsStackModel() {
+	public TicketsStack() {
 		stackTickets = new ArrayList<Ticket>();
 		countTickets = 0;
 	}

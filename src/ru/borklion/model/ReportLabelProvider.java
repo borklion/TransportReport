@@ -6,8 +6,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import ru.borklion.dao.Trip;
-
 public class ReportLabelProvider implements ITableLabelProvider {
 
 	@Override
@@ -54,7 +52,7 @@ public class ReportLabelProvider implements ITableLabelProvider {
 			text = trip.getAddress();
 			break;
 		case 3:
-			text = trip.getTransportType();
+			text = trip.getTransportType().toString();
 			break;
 		case 4:
 			text = "" + trip.getNumberOfBusStop();

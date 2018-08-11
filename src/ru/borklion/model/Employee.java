@@ -1,14 +1,11 @@
 package ru.borklion.model;
 
-public class Employee extends AbstractModel {
+public class Employee {
 	private String fio;
 	private String department;
 	private String boss;
 	private String accountant;
 	
-	public Employee() {
-	}
-
 	public Employee(String fio, String department, String boss, String accountant) {
 		this.fio = fio;
 		this.department = department;
@@ -33,22 +30,22 @@ public class Employee extends AbstractModel {
 	}
 
 	public void setFio(String fio) {
-		firePropertyChange("fio", this.fio, fio);
+//		firePropertyChange("fio", this.fio, fio);
 		this.fio = fio;
 	}
 
 	public void setDepartment(String department) {
-		firePropertyChange("department", this.department, department);
+//		firePropertyChange("department", this.department, department);
 		this.department = department;
 	}
 
 	public void setBoss(String boss) {
-		firePropertyChange("boss", this.boss, boss);
+//		firePropertyChange("boss", this.boss, boss);
 		this.boss = boss;
 	}
 
 	public void setAccountant(String accountant) {
-		firePropertyChange("accountant", this.accountant, accountant);
+//		firePropertyChange("accountant", this.accountant, accountant);
 		this.accountant = accountant;
 	}
 

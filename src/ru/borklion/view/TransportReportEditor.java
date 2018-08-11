@@ -9,8 +9,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.controllers.TransportReportController;
-import ru.borklion.model.TicketsStackModel;
-import ru.borklion.model.TransportReportModel;
+import ru.borklion.model.TicketsStack;
+import ru.borklion.model.TransportReport;
 import ru.borklion.view.dialogs.LogonWizard;
 
 import org.eclipse.swt.widgets.Composite;
@@ -42,16 +42,6 @@ public class TransportReportEditor extends ApplicationWindow {
 	@Override
 	protected Control createContents(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
-		tripsComposite = new TripsComposite(composite, SWT.NONE);
-		tripsComposite.setEnabled(false);
-		tripsComposite.setBounds(180, 10, 700, 300);
-		tripsComposite.addImportButtonListener(controller.AddClickTripsImportButton());
-
-		ticketsStackComposite = new TicketsStackComposite(composite, SWT.NONE);
-		ticketsStackComposite.setEnabled(false);
-		ticketsStackComposite.setSize(150, 350);
-		ticketsStackComposite.addAddButtonListener(controller.AddClickTicketsStackAddButton());
-		ticketsStackComposite.addDeleteButtonListener(controller.AddClickTicketsStackDeleteButton());
 		return composite;
 	}
 
@@ -64,8 +54,19 @@ public class TransportReportEditor extends ApplicationWindow {
 			actionLogon = new Action("Войти") {
 				public void run() {
 					WizardDialog dialogLogonWizard = new WizardDialog(getShell(), new LogonWizard(controller));
+					tripsComposite = new TripsComposite(composite, SWT.NONE);
+					tripsComposite.setEnabled(false);
+					tripsComposite.setBounds(180, 10, 700, 300);
+					tripsComposite.addImportButtonListener(controller.AddClickTripsImportButton());
+
+					ticketsStackComposite = new TicketsStackComposite(composite, SWT.NONE);
+					ticketsStackComposite.setEnabled(false);
+					ticketsStackComposite.setSize(150, 350);
+					ticketsStackComposite.addAddButtonListener(controller.AddClickTicketsStackAddButton());
+					ticketsStackComposite.addDeleteButtonListener(controller.AddClickTicketsStackDeleteButton());
 					dialogLogonWizard.create();
 					dialogLogonWizard.open();
+//					getShell().addKeyListener(controller.addPressedEnter());
 				}
 			};
 		}
@@ -126,10 +127,10 @@ public class TransportReportEditor extends ApplicationWindow {
 	public void TripsRefresh() {
 		tripsComposite.getTripsViewer().refresh();
 	}
-	public TicketsStackModel getTicketsStackModel() {
+	public TicketsStack getTicketsStackModel() {
 		return ticketsStackComposite.getModel();
 	}
-	public void setTripsModel(TransportReportModel model) {
+	public void setTripsModel(TransportReport model) {
 		tripsComposite.setModel(model);
 	}
 	public int getTicketsStackSelectionIndex() {

@@ -26,17 +26,17 @@ public class Ticket extends AbstractModel{
 
 	public void setSerial(String serial) {
 		firePropertyChange("serial",this.serial,serial);
-		this.serial = serial;
+//		this.serial = serial;
 	}
 
 	public void setNumber(String number) {
 		firePropertyChange("number",this.number,number);
-		this.number = number;
+//		this.number = number;
 	}
 
 	public void setPrice(int price) {
 		firePropertyChange("price",this.price,price);
-		this.price = price;
+//		this.price = price;
 	}
 	
 	@Override

@@ -11,12 +11,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
 import ru.borklion.model.Ticket;
-import ru.borklion.model.TicketsStackModel;
+import ru.borklion.model.TicketsStack;
 import ru.borklion.utils.TransportReportUtil;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 
 public class AddTicketDialog extends Dialog {
 
@@ -26,14 +28,14 @@ public class AddTicketDialog extends Dialog {
 	private Text text_1;
 	private Text text_2;
 	private Button btnOk;
-	private TicketsStackModel model;
+	private TicketsStack model;
 
 	/**
 	 * Create the dialog.
 	 * @param parent
 	 * @param style
 	 */
-	public AddTicketDialog(Shell parent, int style, TicketsStackModel model) {
+	public AddTicketDialog(Shell parent, int style, TicketsStack model) {
 		super(parent, style);
 		setText("SWT Dialog");
 		this.model = model;
@@ -78,12 +80,36 @@ public class AddTicketDialog extends Dialog {
 		label_2.setText("Цена");
 		
 		text = new Text(shell, SWT.BORDER);
+		text.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.character==SWT.CR && !TransportReportUtil.isNullOrBlank(text.getText())) {
+					text_1.setFocus();
+				}
+			}
+		});
 		text.setBounds(75, 10, 115, 19);
 		
 		text_1 = new Text(shell, SWT.BORDER);
+		text_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.character==SWT.CR && !TransportReportUtil.isNullOrBlank(text_1.getText())) {
+					text_2.setFocus();
+				}
+			}
+		});
 		text_1.setBounds(75, 30, 115, 19);
 		
 		text_2 = new Text(shell, SWT.BORDER);
+		text_2.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.character==SWT.CR && !TransportReportUtil.isNullOrBlank(text_2.getText())) {
+					okPress();
+				}
+			}
+		});
 		text_2.setBounds(75, 50, 115, 19);
 		
 		btnOk = new Button(shell, SWT.NONE);
@@ -93,22 +119,26 @@ public class AddTicketDialog extends Dialog {
 				new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						String[] field = getField();
-						if (!TransportReportUtil.isNullOrBlank(field[0]) && !TransportReportUtil.isNullOrBlank(field[1])
-								&& !TransportReportUtil.isNullOrBlank(field[2])) {
-							List<Ticket> modeltemp = model.getStackTickets();
-							modeltemp.add(new Ticket(field[0], field[1], Integer.parseInt(field[2])));
-							model.setStackTickets(modeltemp);
-							changeResult(Boolean.TRUE);
-							close();
-						}
-
+						okPress();
 					}
 				}		);
 
 	}
-	public String[] getField() {
+	private String[] getField() {
 		return new String[] {text.getText(),text_1.getText(),text_2.getText()};
+	}
+	private void okPress() {
+		String[] field = getField();
+		if (!TransportReportUtil.isNullOrBlank(field[0]) && !TransportReportUtil.isNullOrBlank(field[1])
+				&& !TransportReportUtil.isNullOrBlank(field[2])) {
+			List<Ticket> modeltemp = model.getStackTickets();
+			modeltemp.add(new Ticket(field[0], field[1], Integer.parseInt(field[2])));
+			model.setStackTickets(modeltemp);
+			changeResult(Boolean.TRUE);
+			close();
+		}
+		else text.setFocus();
+		
 	}
 	public void changeResult(Object result) {
 		this.result = result;

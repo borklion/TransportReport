@@ -7,6 +7,8 @@ import java.util.List;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Display;
@@ -15,8 +17,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import ru.borklion.model.EmployeeModel;
 import ru.borklion.model.Ticket;
-import ru.borklion.model.TicketsStackModel;
-import ru.borklion.model.TransportReportModel;
+import ru.borklion.model.TicketsStack;
+import ru.borklion.model.TransportReport;
 import ru.borklion.utils.TransportReportUtil;
 import ru.borklion.view.TransportReportEditor;
 import ru.borklion.view.dialogs.AddTicketDialog;
@@ -24,10 +26,10 @@ import ru.borklion.view.dialogs.Dialogs;
 
 public class TransportReportController {
 	private EmployeeModel employees;
-	private TransportReportModel transportReportModel;
+	private TransportReport transportReportModel;
 	private Shell shell;
 	private TransportReportEditor window;
-	private TicketsStackModel ticketsStackModel;
+	private TicketsStack ticketsStackModel;
 	private AddTicketDialog dialog;
 
 	public static void main(String[] args) {
@@ -64,7 +66,7 @@ public class TransportReportController {
 	}
 
 	public void CreateReport(int mounth, int year) {
-		transportReportModel = new TransportReportModel(employees.getSelectedEmployee(), mounth, year);
+		transportReportModel = new TransportReport(employees.getSelectedEmployee(), mounth, year);
 		ticketsStackModel = window.getTicketsStackModel();
 		window.setTripsModel(transportReportModel);
 		// window.setTicketsStackModel(ticketsStackModel);
@@ -105,6 +107,18 @@ public class TransportReportController {
 			public void widgetSelected(SelectionEvent e) {
 				dialog = new AddTicketDialog(shell, SWT.DIALOG_TRIM, ticketsStackModel);
 				dialog.open();
+			}
+		};
+	}
+	
+	public KeyAdapter addPressedEnter() {
+		return new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.character==SWT.CR) {
+					dialog = new AddTicketDialog(shell, SWT.DIALOG_TRIM, ticketsStackModel);
+					dialog.open();
+				}
 			}
 		};
 	}
